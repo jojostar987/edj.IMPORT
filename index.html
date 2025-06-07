@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>EDJ.imports</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #6a0dad, #000000);
+      color: #fff;
+      padding: 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* 3D animado título */
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 64px;
+      font-weight: 900;
+      color: #d8caff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      position: relative;
+      animation: glow3d 3s ease-in-out infinite;
+      user-select: none;
+    }
+    h1::before {
+      content: attr(data-text);
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      color: transparent;
+      text-shadow:
+        1px 1px 0 #000,
+        2px 2px 0 #4b0082,
+        3px 3px 0 #000,
+        4px 4px 0 #4b0082;
+      z-index: -1;
+    }
+    @keyframes glow3d {
+      0%, 100% {
+        color: #d8caff;
+        text-shadow:
+          1px 1px 2px #000,
+          2px 2px 4px #4b0082,
+          3px 3px 6px #000,
+          4px 4px 8px #4b0082;
+      }
+      50% {
+        color: #f0e6ff;
+        text-shadow:
+          1px 1px 5px #9b59b6,
+          2px 2px 10px #9b59b6,
+          3px 3px 15px #6a0dad,
+          4px 4px 20px #6a0dad;
+      }
+    }
+
+    /* Container geral da página */
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 40px;
+    }
+
+    /* Formulário login/cadastro */
+    .auth-container {
+      background: #1c1c1c;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+      color: #ddd;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .auth-container h2 {
+      margin-bottom: 20px;
+      text-align: center;
+      color: #adff2f;
+    }
+
+    .auth-container label {
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    .auth-container input {
+      padding: 10px;
+      margin-bottom: 15px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      width: 100%;
+    }
+
+    .auth-container button {
+      background-color: #8a2be2;
+      border: none;
+      color: white;
+      padding: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 16px;
+      transition: background-color 0.3s;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+    .auth-container button:hover {
+      background-color: #a855f7;
+    }
+
+    .auth-container .toggle-link {
+      text-align: center;
+      color: #adff2f;
+      cursor: pointer;
+      user-select: none;
+      font-weight: 600;
+    }
+    .auth-container .toggle-link:hover {
+      text-decoration: underline;
+    }
+
+    /* Container produtos */
+    .produtos-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .produto {
+      background-color: #1c1c1c;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      transition: transform 0.3s, box-shadow 0.3s;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .produto:hover {
+      transform: scale(1.03);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+    }
+
+    .produto img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .produto-info {
+      padding: 15px;
+    }
+
+    .produto-info h3 {
+      margin: 0 0 5px;
+      font-size: 18px;
+    }
+
+    .produto-info p {
+      margin: 0 0 10px;
+      font-size: 14px;
+      color: #ccc;
+    }
+
+    .preco {
+      font-size: 16px;
+      color: #adff2f;
+      margin-bottom: 10px;
+    }
+
+    .btn-comprar {
+      display: inline-block;
+      padding: 10px 15px;
+      background-color: #8a2be2;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+
+    .btn-comprar:hover {
+      background-color: #a855f7;
+    }
+
+    /* Mensagem de feedback */
+    .msg-sucesso {
+      background-color: #4caf50;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 6px;
+      margin-bottom: 15px;
+      text-align: center;
+      display: none;
+    }
+
+    .msg-erro {
+      background-color: #f44336;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 6px;
+      margin-bottom: 15px;
+      text-align: center;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h1 data-text="EDJ.imports">EDJ.imports</h1>
+
+  <div class="container">
+    <div class="auth-container">
+      <div id="msg-sucesso" class="msg-sucesso"></div>
+      <div id="msg-erro" class="msg-erro"></div>
+
+      <!-- Formulário Login -->
+      <form id="form-login">
+        <h2>Login</h2>
+        <label for="login-email">E-mail</label>
+        <input type="email" id="login-email" placeholder="seuemail@exemplo.com" required />
+        <label for="login-senha">Senha</label>
+        <input type="password" id="login-senha" placeholder="Senha" required />
+        <button type="submit">Entrar</button>
+        <p class="toggle-link" id="btn-toggle-cadastro">Não tem conta? Cadastre-se</p>
+      </form>
+
+      <!-- Formulário Cadastro -->
+      <form id="form-cadastro" style="display:none;">
+        <h2>Cadastro</h2>
+        <label for="cadastro-nome">Nome</label>
+        <input type="text" id="cadastro-nome" placeholder="Seu nome completo" required />
+        <label for="cadastro-email">E-mail</label>
+        <input type="email" id="cadastro-email" placeholder="seuemail@exemplo.com" required />
+        <label for="cadastro-senha">Senha</label>
+        <input type="password" id="cadastro-senha" placeholder="Senha" required />
+        <button type="submit">Cadastrar</button>
+        <p class="toggle-link" id="btn-toggle-login">Já tem conta? Faça login</p>
+      </form>
+    </div>
+
+    <div class="produtos-container" id="produtos-container"></div>
+  </div>
+
+  <script>
+    // Dados produtos
+    const numeroWhatsApp = "5561996920917";
+    const produtos = [
+      { nome: "Camisa de Time", descricao: "Tamanhos P ao GG", preco: "R$ 89,90", imagem: "https://cbu01.alicdn.com/img/ibank/O1CN012UluwI1WRa577Ti1Z_!!2219435832785-0-cib.jpg" },
+      { nome: "Camisa de Time", descricao: "Tamanhos P ao GG", preco: "R$ 89,90", imagem: "https://cbu01.alicdn.com/img/ibank/O1CN011r4bAR1WRa56Es1PU_!!2219435832785-0-cib.jpg" },
+      { nome: "Camisa de Time", descricao: "Tamanhos P ao GG", preco: "R$ 89,90", imagem: "https://cbu01.alicdn.com/img/ibank/O1CN017cqzpT1WRa578YNR6_!!2219435832785-0-cib.jpg" },
+      { nome: "Camisa de Time", descricao: "Tamanhos P ao GG", preco: "R$ 89,90", imagem: "https://cbu01.alicdn.com/img/ibank/O1CN016HwH4E1WRa57d87kB_!!2219435832785-0-cib.jpg" },
+      { nome: "Camisa de Time", descricao: "Tamanhos P ao GG", preco: "R$ 89,90", imagem: "https://cbu01.alicdn.com/img/ibank/O1CN01IepzSZ1WRa56V3RXm_!!2219435832785-0-cib.jpg" },
+      { nome: "Camisa de Time", descricao: "Tamanhos P ao GG", preco: "R$ 89,90", imagem: "https://cbu01.alicdn.com/img/ibank/O1CN01n9ZYu31WRa54Hs5NJ_!!2219435832785-0-cib.jpg" },
+      { nome: "Camisa de Time", descricao: "Tamanhos P ao GG", preco: "R$ 89,90", imagem: "https://cbu01.alicdn.com/img/ibank/O1CN014kNe5Z1WRa55cda2f_!!2219435832785-0-cib.jpg" },
+
+      { nome: "Track Suite", descricao: "Tamanhos P ao GG", preco: "R$ 149,90", imagem: "https://cbu01.alicdn.com/img/ibank/O1CN01faCwXG1zkTFRLJpQa_!!2206750686752-0-cib.jpg" },
+      { nome: "Track Suite", descricao: "Tamanhos P ao GG", preco: "R$ 149,90", imagem: "https://cbu01.alicdn.com/img/ibank/O1CN01ivt25R1zkTFS4DxeT_!!2206750686752-0-cib.jpg" },
+      { nome: "Track Suite", descricao: "Tamanhos P ao GG", preco: "R$ 149,90", imagem: "https://cbu01.alicdn.com/img/ibank/O1CN01faCwXG1zkTFRLJpQa_!!2206750686752-0-cib.jpg" }
+    ];
+
+    // Mostrar produtos
+    const containerProdutos = document.getElementById("produtos-container");
+
+    produtos.forEach(produto => {
+      const mensagem = encodeURIComponent(`Olá! Tenho interesse no produto "${produto.nome}" - ${produto.descricao} por ${produto.preco}. Ainda está disponível?`);
+      const linkWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${mensagem}`;
+
+      const card = document.createElement("div");
+      card.className = "produto";
+      card.innerHTML = `
+        <img src="${produto.imagem}" alt="${produto.nome}">
+        <div class="produto-info">
+          <h3>${produto.nome}</h3>
+          <p>${produto.descricao}</p>
+          <div class="preco">${produto.preco}</div>
+          <a class="btn-comprar" href="${linkWhatsApp}" target="_blank" rel="noopener noreferrer">Comprar</a>
+        </div>
+      `;
+      containerProdutos.appendChild(card);
+    });
+
+    // Trocar formulários
+    const formLogin = document.getElementById('form-login');
+    const formCadastro = document.getElementById('form-cadastro');
+    const btnToggleCadastro = document.getElementById('btn-toggle-cadastro');
+    const btnToggleLogin = document.getElementById('btn-toggle-login');
+    const msgSucesso = document.getElementById('msg-sucesso');
+    const msgErro = document.getElementById('msg-erro');
+
+    btnToggleCadastro.addEventListener('click', () => {
+      formLogin.style.display = 'none';
+      formCadastro.style.display = 'block';
+      clearMessages();
+    });
+    btnToggleLogin.addEventListener('click', () => {
+      formCadastro.style.display = 'none';
+      formLogin.style.display = 'block';
+      clearMessages();
+    });
+
+    function clearMessages() {
+      msgSucesso.style.display = 'none';
+      msgErro.style.display = 'none';
+      msgSucesso.textContent = '';
+      msgErro.textContent = '';
+    }
+
+    // Simulando banco de dados local (não persistente)
+    let usuarios = [];
+
+    // Cadastro
+    formCadastro.addEventListener('submit', (e) => {
+      e.preventDefault();
+      clearMessages();
+
+      const nome = document.getElementById('cadastro-nome').value.trim();
+      const email = document.getElementById('cadastro-email').value.trim().toLowerCase();
+      const senha = document.getElementById('cadastro-senha').value;
+
+      if (!nome || !email || !senha) {
+        showError("Preencha todos os campos.");
+        return;
+      }
+
+      if (usuarios.find(u => u.email === email)) {
+        showError("E-mail já cadastrado.");
+        return;
+      }
+
+      usuarios.push({ nome, email, senha });
+      showSuccess("Cadastro realizado com sucesso! Agora faça login.");
+      formCadastro.reset();
+      setTimeout(() => {
+        formCadastro.style.display = 'none';
+        formLogin.style.display = 'block';
+        clearMessages();
+      }, 2000);
+    });
+
+    // Login
+    formLogin.addEventListener('submit', (e) => {
+      e.preventDefault();
+      clearMessages();
+
+      const email = document.getElementById('login-email').value.trim().toLowerCase();
+      const senha = document.getElementById('login-senha').value;
+
+      if (!email || !senha) {
+        showError("Preencha todos os campos.");
+        return;
+      }
+
+      const usuario = usuarios.find(u => u.email === email && u.senha === senha);
+      if (!usuario) {
+        showError("E-mail ou senha incorretos.");
+        return;
+      }
+
+      showSuccess(`Bem-vindo(a), ${usuario.nome}! Login realizado com sucesso.`);
+      formLogin.reset();
+    });
+
+    function showSuccess(msg) {
+      msgSucesso.textContent = msg;
+      msgSucesso.style.display = 'block';
+      msgErro.style.display = 'none';
+    }
+
+    function showError(msg) {
+      msgErro.textContent = msg;
+      msgErro.style.display = 'block';
+      msgSucesso.style.display = 'none';
+    }
+  </script>
+
+</body>
+</html>
